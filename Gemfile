@@ -32,11 +32,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+gem 'httparty', '~> 0.22.0'
+
 #AWS
 gem 'aws-sdk-s3', '~> 1'
-
-# Full-text search
-gem 'pg_search'
 
 # Pagination
 gem 'kaminari'
@@ -45,11 +44,8 @@ gem 'kaminari'
 gem 'dotenv-rails', groups: [:development, :test]
 
 # OpenAI API client
-gem 'openai'
+gem 'ruby-openai', '~> 7.3.1'
 
-#Elasticsearch
-gem 'elasticsearch-rails'
-gem 'elasticsearch-model'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

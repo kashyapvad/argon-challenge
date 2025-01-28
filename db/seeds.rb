@@ -12,11 +12,8 @@
 
 require 'json'
 
-# Initialize OpenAI client
-#client = OpenAI::Client.new(access_token: ENV['OPEN_AI_API_KEY'])
-
 # Get JSON file from S3 bucket
-file = Cdn::AwsBucketClient.get_object ENV['AWS_UGC_BUCKET'], 'ctg-studies', 'json';nil
+file = AwsBucketClient.get_object ENV['AWS_UGC_BUCKET'], 'ctg-studies', 'json';nil
 
 # Read and parse the JSON data
 json_data = file.body.read;nil
@@ -199,61 +196,6 @@ clinical_trials = JSON.parse(json_data);nil
   )
 
   clinical_trial.save!
-
-  # Generate and Assign Embedding
-  # combined_text = [
-  #   nct_id,
-  #   org_study_id,
-  #   sponsor_full_name,
-  #   sponsor_class,
-  #   brief_title,
-  #   official_title,
-  #   overall_status,
-  #   brief_summary,
-  #   detailed_description,
-  #   conditions.join(' '),
-  #   phases.join(' '),
-  #   allocation,
-  #   intervention_model,
-  #   intervention_model_description,
-  #   primary_purpose,
-  #   masking,
-  #   who_masked.join(' '),
-  #   enrollment_count.to_s,
-  #   enrollment_type,
-  #   eligibility_criteria,
-  #   healthy_volunteers.to_s,
-  #   sex,
-  #   minimum_age,
-  #   maximum_age,
-  #   std_ages.join(' '),
-  #   version_holder
-  # ].compact.join(' ')
-
-  # begin
-  #   response = client.embeddings(
-  #     parameters: {
-  #       model: "text-embedding-ada-002",
-  #       input: combined_text
-  #     }
-  #   )
-  #   embedding = response['data'][0]['embedding']
-  #   clinical_trial.embedding = embedding
-  # rescue OpenAI::Error => e
-  #   puts "OpenAI API Error for trial #{nct_id}: #{e.message}"
-  #   next
-  # rescue => e
-  #   puts "Unexpected Error for trial #{nct_id}: #{e.message}"
-  #   next
-  # end
-
-  # # Save ClinicalTrial Record
-  # if clinical_trial.save
-  #   puts "Saved Clinical Trial: #{nct_id}"
-  # else
-  #   puts "Failed to save Clinical Trial: #{nct_id}"
-  #   next
-  # end
 
   # Process Arm Groups and Interventions
   (arm_groups_data || []).each do |arm_data|
