@@ -94,8 +94,8 @@ class ClinicalTrial < ApplicationRecord
             nct_id: self.nct_id,
             brief_title: self.brief_title,
             official_title: self.official_title,
-            conditions: self.conditions.join(', '),
-            phases: self.phases,
+            conditions: (self.conditions || []).join(', '),
+            phases: (self.phases || []),
             status: self.overall_status,
             # Add other metadata fields as desired
           }
