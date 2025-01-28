@@ -334,6 +334,6 @@ clinical_trials = JSON.parse(json_data)
     )
     location.save!
   end
-end
+end; nil
 
 puts "Seeding completed. Total Clinical Trials: #{ClinicalTrial.count}"
