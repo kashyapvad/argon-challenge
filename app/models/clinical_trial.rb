@@ -6,7 +6,7 @@ class ClinicalTrial < ApplicationRecord
   has_many :outcomes, dependent: :destroy
   has_many :locations, dependent: :destroy
 
-  after_save :generate_embeddings
+  after_create :generate_embeddings
   after_save :upsert_to_pinecone if -> { embedding_changed? }
   after_destroy :delete_from_pinecone
 
