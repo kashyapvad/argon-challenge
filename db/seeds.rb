@@ -16,11 +16,11 @@ require 'json'
 #client = OpenAI::Client.new(access_token: ENV['OPEN_AI_API_KEY'])
 
 # Path to the JSON file
-file = Cdn::AwsBucketClient.get_object ENV['AWS_UGC_BUCKET'], 'ctg-studies', 'json'
+file = Cdn::AwsBucketClient.get_object ENV['AWS_UGC_BUCKET'], 'ctg-studies', 'json';nil
 
 # Read and parse the JSON data
-json_data = File.read(file.body.read)
-clinical_trials = JSON.parse(json_data)
+json_data = File.read(file.body.read);nil
+clinical_trials = JSON.parse(json_data);nil
 
 (clinical_trials || []).each_with_index do |trial_data, index|
   puts "Processing Clinical Trial #{index + 1}/#{clinical_trials.size}..." 
