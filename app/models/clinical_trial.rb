@@ -96,7 +96,7 @@ class ClinicalTrial < ApplicationRecord
             official_title: self.official_title,
             conditions: self.conditions.join(', '),
             phases: self.phases,
-            status: self..status,
+            status: self.overall_status,
             # Add other metadata fields as desired
           }
         }
