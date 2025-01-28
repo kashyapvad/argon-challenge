@@ -32,6 +32,9 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+#AWS
+gem 'aws-sdk-s3', '~> 1'
+
 # Full-text search
 gem 'pg_search'
 

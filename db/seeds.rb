@@ -11,16 +11,15 @@
 # db/seeds.rb
 
 require 'json'
-require 'openai'
 
 # Initialize OpenAI client
 #client = OpenAI::Client.new(access_token: ENV['OPEN_AI_API_KEY'])
 
 # Path to the JSON file
-file_path = Rails.root.join('db', 'ctg-studies.json')
+file = Cdn::AwsBucketClient.get_object ENV['AWS_UGC_BUCKET'], 'ctg-studies', 'json'
 
 # Read and parse the JSON data
-json_data = File.read(file_path)
+json_data = File.read(file.body.read)
 clinical_trials = JSON.parse(json_data)
 
 (clinical_trials || []).each_with_index do |trial_data, index|
