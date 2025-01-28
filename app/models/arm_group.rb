@@ -6,5 +6,4 @@ class ArmGroup < ApplicationRecord
   
     # Validations
     validates :label, presence: true
-    validates :arm_type, presence: true
 end
