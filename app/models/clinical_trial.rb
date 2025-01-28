@@ -22,14 +22,14 @@ class ClinicalTrial < ApplicationRecord
         "overall_status: #{self.overall_status}",
         "brief_summary: #{self.brief_summary}",
         "detailed_description: #{self.detailed_description}",
-        "conditions: #{self.conditions.join(' ')}",
-        "phases: #{self.phases.join(' ')}",
+        "conditions: #{(self.conditions || []).join(' ')}",
+        "phases: #{(self.phases || []).join(' ')}",
         "allocation: #{self.allocation}",
         "intervention_model: #{self.intervention_model}",
         "intervention_model_description: #{self.intervention_model_description}",
         "primary_purpose: #{self.primary_purpose}",
         "masking: #{self.masking}",
-        "who_masked: #{self.who_masked.join(' ')}",
+        "who_masked: #{(self.who_masked || []).join(' ')}",
         "enrollment_count: #{self.enrollment_count}",
         "enrollment_type: #{self.enrollment_type}",
         "eligibility_criteria: #{self.eligibility_criteria}",
@@ -37,7 +37,7 @@ class ClinicalTrial < ApplicationRecord
         "sex: #{self.sex}",
         "minimum_age: #{self.minimum_age}",
         "maximum_age: #{self.maximum_age}",
-        "std_ages: #{self.std_ages.join(' ')}",
+        "std_ages: #{(self.std_ages || []).join(' ')}",
         "version_holder: #{self.version_holder}"
     ]
 
@@ -94,8 +94,8 @@ class ClinicalTrial < ApplicationRecord
             nct_id: self.nct_id,
             brief_title: self.brief_title,
             official_title: self.official_title,
-            conditions: (self.conditions || []).join(', '),
-            phases: (self.phases || []),
+            conditions: self.conditions.join(', '),
+            phases: self.phases,
             status: self.overall_status,
             # Add other metadata fields as desired
           }
