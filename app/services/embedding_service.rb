@@ -10,7 +10,7 @@ class EmbeddingService
       )
       response['data'][0]['embedding']
     rescue => e
-      puts "Unexpected Error when genrating embeddings for trial #{nct_id}: #{e.message}"
+      puts "Unexpected Error when genrating embeddings: #{e.message}"
     end
   end
 end
