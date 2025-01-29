@@ -20,7 +20,9 @@
       </div>
       <div class="card-body">
         <p><strong>Official Title:</strong> <%= trial.official_title %></p>
-        <p><strong>Overall Status:</strong> <%= trial.overall_status.capitalize %></p>
+        <p><strong>Overall Status:</strong> <%= trial.overall_status %></p>
+        <p><strong>Sponsor Name:</strong> <%= trial.sponsor_full_name %></p>
+        <p><strong>Sponsor Class:</strong> <%= trial.sponsor_class %></p>
         <p><strong>Brief Summary:</strong> <%= trial.brief_summary %></p>
         <p><strong>Detailed Description:</strong> <%= trial.detailed_description %></p>
         <p><strong>Conditions:</strong> <%= (trial.conditions || []).join(', ') %></p>
