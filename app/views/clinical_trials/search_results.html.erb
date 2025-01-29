@@ -1,4 +1,5 @@
 <h1>Search Results</h1>
+<%= link_to 'New Search', search_clinical_trials_path, class: "btn btn-secondary mt-3" %>
 
 <p>
   <strong>Similarity Threshold:</strong> <%= params[:threshold].present? ? params[:threshold].to_f : 0.8 %>
