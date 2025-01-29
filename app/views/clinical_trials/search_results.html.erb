@@ -24,8 +24,8 @@
         <p><strong>Overall Status:</strong> <%= trial.overall_status.capitalize %></p>
         <p><strong>Brief Summary:</strong> <%= trial.brief_summary %></p>
         <p><strong>Detailed Description:</strong> <%= trial.detailed_description %></p>
-        <p><strong>Conditions:</strong> <%= trial.conditions %></p>
-        <p><strong>Phases:</strong> <%= trial.phases.map(&:capitalize).join(', ') %></p>
+        <p><strong>Conditions:</strong> <%= (trial.conditions || []).join(', ') %></p>
+        <p><strong>Phases:</strong> <%= (trial.phases || []).map(&:capitalize).join(', ') %></p>
         <p><strong>Allocation:</strong> <%= trial.allocation %></p>
         <p><strong>Intervention Model:</strong> <%= trial.intervention_model %></p>
         <p><strong>Primary Purpose:</strong> <%= trial.primary_purpose %></p>
@@ -48,7 +48,7 @@
         <% if trial.arm_groups.any? %>
           <h4>Arm Groups:</h4>
           <% trial.arm_groups.each do |arm_group| %>
-            <%= render partial: 'partials/arm_group', locals: { arm_group: arm_group } %>
+            <%= render partial: 'clinical_trials/partials/arm_group', locals: { arm_group: arm_group } %>
           <% end %>
         <% end %>
 
@@ -56,7 +56,7 @@
         <% if trial.outcomes.any? %>
           <h4>Outcomes:</h4>
           <% trial.outcomes.each do |outcome| %>
-            <%= render partial: 'partials/outcome', locals: { outcome: outcome } %>
+            <%= render partial: 'clinical_trials/partials/outcome', locals: { outcome: outcome } %>
           <% end %>
         <% end %>
 
@@ -64,7 +64,7 @@
         <% if trial.locations.any? %>
           <h4>Locations:</h4>
           <% trial.locations.each do |location| %>
-            <%= render partial: 'partials/location', locals: { location: location } %>
+            <%= render partial: 'clinical_trials/partials/location', locals: { location: location } %>
           <% end %>
         <% end %>
       </div>
