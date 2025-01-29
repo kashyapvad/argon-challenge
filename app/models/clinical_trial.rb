@@ -84,6 +84,7 @@ class ClinicalTrial < ApplicationRecord
   private
 
   def upsert_to_pinecone
+    return unless self.embedding.present?
     pinecone = ::PineconeClient.new
     vectors = {
       vectors: [
