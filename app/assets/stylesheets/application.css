@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+ .large-search-box {
+  width: 500px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  font-size: 18px; /* Adjust font size as needed */
+  padding: 10px; /* Adjust padding as needed */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

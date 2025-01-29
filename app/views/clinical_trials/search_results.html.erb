@@ -1,10 +1,8 @@
-<!-- app/views/clinical_trials/search_results.html.erb -->
-
 <h1>Search Results</h1>
 
 <p>
-  <strong>Similarity Threshold:</strong> <%= params[:threshold].present? ? params[:threshold].to_f : 0.6 %>
-  - <strong>0.6</strong> is optimal for perfect recall, but you can increase it to improve precision over recall. The higher the threshold, the better the precision.
+  <strong>Similarity Threshold:</strong> <%= params[:threshold].present? ? params[:threshold].to_f : 0.8 %>
+  - you can increase it to improve precision over recall. The higher the threshold, the better the precision.
 </p>
 
 <% if @clinical_trials.any? %>
@@ -12,7 +10,7 @@
 
   <% @clinical_trials.each do |trial| %>
     <% # Retrieve the similarity score for each trial %>
-    <% similarity_score = @pinecone_response['matches'].find { |match| match['id'].to_i == trial.id }['score'] rescue nil %>
+    
 
     <div class="card mb-4">
       <div class="card-header">
@@ -40,7 +38,7 @@
         <p><strong>Maximum Age:</strong> <%= trial.maximum_age %></p>
         <p><strong>Standard Ages:</strong> <%= trial.std_ages %></p>
 
-        <p><strong>Similarity Score:</strong> <%= similarity_score ? number_to_percentage(similarity_score * 100, precision: 2) : 'N/A' %></p>
+        
 
         <hr>
 
