@@ -7,6 +7,7 @@ class ClinicalTrialsController < ApplicationController
   # POST /clinical_trials/search
   def search
     query = params[:query]
+    threshold_input = params[:threshold]
 
     # Validate and set similarity threshold
     similarity_threshold = threshold_input.present? ? threshold_input.to_f : 0.8
