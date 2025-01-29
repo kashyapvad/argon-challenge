@@ -22,7 +22,7 @@ class ClinicalTrialsController < ApplicationController
     # Generate embedding for the query
     query_embeddings = EmbeddingService.generate_embeddings_from_openai(query)
 
-    if embedding.nil?
+    if query_embeddings.nil?
       flash[:alert] = "Failed to generate embedding for the query. Please try again."
       redirect_to search_clinical_trials_path and return
     end
