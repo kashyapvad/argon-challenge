@@ -5,7 +5,7 @@ A semantic search application leveraging Ruby on Rails, OpenAI Embedding API, an
 ---
 
 ## Tech Stack
-I focused entirely on backend development for this project, opting to use **Ruby on Rails** for its ability to quickly facilitate production-ready deployments. While I have experience with Python, Rails has been my primary framework for the past three years, allowing me to save time and effort on ramping up.  
+For this project, I focused entirely on backend development and functionality, so I haven’t spent much time on the display or front-end aspects, opting to use **Ruby on Rails** for its ability to quickly facilitate production-ready deployments. While I have experience with Python, Rails has been my primary framework for the past three years, allowing me to save time and effort on ramping up.  
 
 For embedding and similarity search functionality:
 1. **OpenAI Embedding API**: Used the `text-embedding-ada` model to generate 1536-dimensional embeddings for data points and queries.
