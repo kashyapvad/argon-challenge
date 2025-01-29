@@ -8,13 +8,13 @@
 <% if @clinical_trials.any? %>
   <p>Found <strong><%= @clinical_trials.size %></strong> matching clinical trials:</p>
 
-  <% @clinical_trials.each do |trial| %>
+  <% @clinical_trials.each_with_index do |trial, i| %>
     <% # Retrieve the similarity score for each trial %>
     
 
     <div class="card mb-4">
       <div class="card-header">
-        <h3><%= trial.brief_title %></h3>
+        <h3><%= i + 1 %> - <%= trial.brief_title %></h3>
         <p><strong>NCT ID:</strong> <%= trial.nct_id %></p>
       </div>
       <div class="card-body">
