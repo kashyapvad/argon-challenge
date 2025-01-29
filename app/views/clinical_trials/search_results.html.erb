@@ -1,51 +1,75 @@
+<!-- app/views/clinical_trials/search_results.html.erb -->
+
 <h1>Search Results</h1>
 
 <p>
-  Similarity Threshold: <strong><%= params[:threshold].present? ? params[:threshold].to_f : 0.6 %></strong>
-  - 0.6 is optimal for perfect recall, but you can increase it to improve precision over recall.
+  <strong>Similarity Threshold:</strong> <%= params[:threshold].present? ? params[:threshold].to_f : 0.6 %>
+  - <strong>0.6</strong> is optimal for perfect recall, but you can increase it to improve precision over recall. The higher the threshold, the better the precision.
 </p>
 
 <% if @clinical_trials.any? %>
   <p>Found <strong><%= @clinical_trials.size %></strong> matching clinical trials:</p>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>NCT ID</th>
-        <th>Brief Title</th>
-        <th>Official Title</th>
-        <th>Description</th>
-        <th>Conditions</th>
-        <th>Phases</th>
-        <th>Status</th>
-        <th>Organization</th>
-        <th>Similarity Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @clinical_trials.each do |trial| %>
-        <% # Retrieve the similarity score for each trial %>
-        <% similarity_score = @pinecone_response['matches'].find { |match| match['id'].to_i == trial.id }['score'] rescue nil %>
-        <tr>
-          <td><%= trial.nct_id %></td>
-          <td><%= trial.brief_title %></td>
-          <td><%= trial.official_title %></td>
-          <td><%= truncate(trial.description, length: 150) %></td>
-          <td><%= trial.conditions.join(', ') %></td>
-          <td><%= trial.phases %></td>
-          <td><%= trial.status %></td>
-          <td><%= trial.organization %></td>
-          <td>
-            <% if similarity_score.present? %>
-              <%= number_to_percentage(similarity_score * 100, precision: 2) %>
-            <% else %>
-              N/A
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% @clinical_trials.each do |trial| %>
+    <% # Retrieve the similarity score for each trial %>
+    <% similarity_score = @pinecone_response['matches'].find { |match| match['id'].to_i == trial.id }['score'] rescue nil %>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        <h3><%= trial.brief_title %></h3>
+        <p><strong>NCT ID:</strong> <%= trial.nct_id %></p>
+      </div>
+      <div class="card-body">
+        <p><strong>Official Title:</strong> <%= trial.official_title %></p>
+        <p><strong>Overall Status:</strong> <%= trial.overall_status.capitalize %></p>
+        <p><strong>Brief Summary:</strong> <%= trial.brief_summary %></p>
+        <p><strong>Detailed Description:</strong> <%= trial.detailed_description %></p>
+        <p><strong>Conditions:</strong> <%= trial.conditions %></p>
+        <p><strong>Phases:</strong> <%= trial.phases.map(&:capitalize).join(', ') %></p>
+        <p><strong>Allocation:</strong> <%= trial.allocation %></p>
+        <p><strong>Intervention Model:</strong> <%= trial.intervention_model %></p>
+        <p><strong>Primary Purpose:</strong> <%= trial.primary_purpose %></p>
+        <p><strong>Masking:</strong> <%= trial.masking %></p>
+        <p><strong>Who Masked:</strong> <%= trial.who_masked %></p>
+        <p><strong>Enrollment Count:</strong> <%= trial.enrollment_count %></p>
+        <p><strong>Enrollment Type:</strong> <%= trial.enrollment_type %></p>
+        <p><strong>Eligibility Criteria:</strong> <%= trial.eligibility_criteria %></p>
+        <p><strong>Healthy Volunteers:</strong> <%= trial.healthy_volunteers %></p>
+        <p><strong>Sex:</strong> <%= trial.sex %></p>
+        <p><strong>Minimum Age:</strong> <%= trial.minimum_age %></p>
+        <p><strong>Maximum Age:</strong> <%= trial.maximum_age %></p>
+        <p><strong>Standard Ages:</strong> <%= trial.std_ages %></p>
+
+        <p><strong>Similarity Score:</strong> <%= similarity_score ? number_to_percentage(similarity_score * 100, precision: 2) : 'N/A' %></p>
+
+        <hr>
+
+        <!-- Arm Groups -->
+        <% if trial.arm_groups.any? %>
+          <h4>Arm Groups:</h4>
+          <% trial.arm_groups.each do |arm_group| %>
+            <%= render partial: 'partials/arm_group', locals: { arm_group: arm_group } %>
+          <% end %>
+        <% end %>
+
+        <!-- Outcomes -->
+        <% if trial.outcomes.any? %>
+          <h4>Outcomes:</h4>
+          <% trial.outcomes.each do |outcome| %>
+            <%= render partial: 'partials/outcome', locals: { outcome: outcome } %>
+          <% end %>
+        <% end %>
+
+        <!-- Locations -->
+        <% if trial.locations.any? %>
+          <h4>Locations:</h4>
+          <% trial.locations.each do |location| %>
+            <%= render partial: 'partials/location', locals: { location: location } %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 <% else %>
   <p>No clinical trials found matching your query.</p>
 <% end %>
