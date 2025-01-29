@@ -1,0 +1,53 @@
+<h1>Search Results</h1>
+
+<p>
+  Similarity Threshold: <strong><%= params[:threshold].present? ? params[:threshold].to_f : 0.6 %></strong>
+  - 0.6 is optimal for perfect recall, but you can increase it to improve precision over recall.
+</p>
+
+<% if @clinical_trials.any? %>
+  <p>Found <strong><%= @clinical_trials.size %></strong> matching clinical trials:</p>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>NCT ID</th>
+        <th>Brief Title</th>
+        <th>Official Title</th>
+        <th>Description</th>
+        <th>Conditions</th>
+        <th>Phases</th>
+        <th>Status</th>
+        <th>Organization</th>
+        <th>Similarity Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clinical_trials.each do |trial| %>
+        <% # Retrieve the similarity score for each trial %>
+        <% similarity_score = @pinecone_response['matches'].find { |match| match['id'].to_i == trial.id }['score'] rescue nil %>
+        <tr>
+          <td><%= trial.nct_id %></td>
+          <td><%= trial.brief_title %></td>
+          <td><%= trial.official_title %></td>
+          <td><%= truncate(trial.description, length: 150) %></td>
+          <td><%= trial.conditions.join(', ') %></td>
+          <td><%= trial.phases %></td>
+          <td><%= trial.status %></td>
+          <td><%= trial.organization %></td>
+          <td>
+            <% if similarity_score.present? %>
+              <%= number_to_percentage(similarity_score * 100, precision: 2) %>
+            <% else %>
+              N/A
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No clinical trials found matching your query.</p>
+<% end %>
+
+<%= link_to 'New Search', search_clinical_trials_path, class: "btn btn-secondary mt-3" %>

@@ -19,19 +19,21 @@ class PineconeClient
   end
 
   # Query vectors from Pinecone with similarity scores
-  def query(query_vector, top_k: 10)
-    self.class.post("/query", headers: @headers, body: {
+  def query query_vector, options={}
+    opts = options.with_indifferent_access
+    top_k = opts[:top_k] || 10000
+    body = {
       vector: query_vector,
       topK: top_k,
       includeValues: false,
-      includeMetadata: true  # Enable metadata to get similarity scores
-    }.to_json)
+      includeMetadata: true,
+      #filter: {}.compact  Add filters if needed
+    }.to_json
+    self.class.post("/query", headers: @headers, body: body)
   end
 
   # Delete vectors from Pinecone
   def delete(id:)
-    self.class.post("/vectors/delete", headers: @headers, body: {
-      ids: [id]
-    }.to_json)
+    self.class.post("/vectors/delete", headers: @headers, body: { ids: [id] }.to_json)
   end
 end
