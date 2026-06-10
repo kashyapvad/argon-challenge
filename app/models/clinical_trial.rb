@@ -7,7 +7,7 @@ class ClinicalTrial < ApplicationRecord
   has_many :locations, dependent: :destroy
 
   after_create :generate_embeddings
-  after_save :upsert_to_pinecone if -> { embedding_changed? }
+  after_save :upsert_to_pinecone, if: -> { saved_change_to_embedding? }
   after_destroy :delete_from_pinecone
 
   def generate_embeddings
@@ -43,14 +43,14 @@ class ClinicalTrial < ApplicationRecord
 
     #Arm Group Data
     self.arm_groups.each do |arm_group|
-      combined_text + [
+      combined_text.concat [
         "arm_label: #{arm_group.label}",
         "arm_type: #{arm_group.arm_type}",
         "arm_group_description: #{arm_group.description}",
       ]
 
       arm_group.interventions.each do |intervention|
-        combined_text + [
+        combined_text.concat [
           "intervention_name: #{intervention.name}",
           "intervention_type: #{intervention.intervention_type}",
           "intervention_description: #{intervention.description}",
@@ -60,7 +60,7 @@ class ClinicalTrial < ApplicationRecord
 
     #Outcome Data
     self.outcomes.each do |outcome|
-      combined_text + [
+      combined_text.concat [
         "outcome_measure: #{outcome.measure}",
         "outcome_type: #{outcome.outcome_type}",
         "outcome_description: #{outcome.description}",
@@ -70,7 +70,7 @@ class ClinicalTrial < ApplicationRecord
 
     #Location Data
     self.locations.each do |location|
-      combined_text + [
+      combined_text.concat [
         "location_facility: #{location.facility}",
         "location_city: #{location.city}",
         "location_country: #{location.country}",

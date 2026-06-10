@@ -10,7 +10,8 @@ class EmbeddingService
       )
       response['data'][0]['embedding']
     rescue => e
-      puts "Unexpected Error when genrating embeddings: #{e.message}"
+      Rails.logger.error "Unexpected error when generating embeddings: #{e.message}"
+      nil
     end
   end
 end
